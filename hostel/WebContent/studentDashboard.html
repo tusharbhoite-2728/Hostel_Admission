@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary-color: #0d6efd;
+      --secondary-color: #6c757d;
+      --accent-color: #28a745;
+      --light-bg: #f5f7fa;
+      --dark-text: #343a40;
+      --sidebar-bg: #003366;
+      --sidebar-hover: #004080;
+      --header-bg: #0056b3;
+      --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--light-bg);
+      color: var(--dark-text);
+      margin: 0;
+      padding: 0;
+    }
+
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      background: var(--sidebar-bg);
+      padding-top: 1.5rem;
+      box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar.collapsed {
+      width: 80px;
+    }
+
+    .sidebar .nav-link {
+      color: white !important;
+      padding: 0.75rem 1.5rem;
+      margin: 0.25rem 1rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar .nav-link i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .sidebar .nav-link:hover {
+      background-color: var(--sidebar-hover);
+      transform: translateX(5px);
+    }
+
+    .sidebar .sidebar-header {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: white;
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar .sidebar-header i {
+      margin-right: 10px;
+    }
+
+    .content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      transition: all 0.3s ease;
+      padding: 1.5rem;
+      min-height: 100vh;
+    }
+
+    .top-navbar {
+      background: var(--header-bg);
+      color: white;
+      padding: 1rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      font-size: 1.25rem;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+    }
+
+    .top-navbar i {
+      margin-right: 10px;
+    }
+
+    .card {
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      border: none;
+      transition: all 0.3s ease;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      background: white;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+
+    .card h3 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .card h3 i {
+      margin-right: 10px;
+      color: var(--primary-color);
+    }
+
+    .card p {
+      color: var(--secondary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .card .btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1.25rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .card .btn:hover {
+      background-color: #0b5ed7;
+      transform: translateY(-2px);
+    }
+
+    .card .btn i {
+      margin-left: 5px;
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 80px;
+        overflow: hidden;
+      }
+      
+      .sidebar .nav-link span {
+        display: none;
+      }
+      
+      .sidebar .nav-link i {
+        margin-right: 0;
+        font-size: 1.2rem;
+      }
+      
+      .sidebar .sidebar-header span {
+        display: none;
+      }
+      
+      .content {
+        margin-left: 80px;
+        width: calc(100% - 80px);
+      }
+      
+      .top-navbar {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      
+      .sidebar .nav-link span {
+        display: inline;
+      }
+      
+      .sidebar .sidebar-header span {
+        display: inline;
+      }
+      
+      .content {
+        margin-left: 0;
+        width: 100%;
+      }
+      
+      .top-navbar {
+        display: none;
+      }
+    }
+
+    /* Animation for cards */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+
+    /* Status indicators */
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .status-complete {
+      background-color: var(--accent-color);
+    }
+
+    .status-pending {
+      background-color: #ffc107;
+    }
+
+    .status-incomplete {
+      background-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-user-graduate"></i>
+      <span>Student Dashboard</span>
+    </div>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" href="form.html">
+          <i class="fas fa-user"></i>
+          <span>Personal Details</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="form1.html">
+          <i class="fas fa-file-signature"></i>
+          <span>Admission Process</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="payment.html">
+          <i class="fas fa-credit-card"></i>
+          <span>Payment</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="viewform.jsp">
+          <i class="fas fa-download"></i>
+          <span>Downloads</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="content">
+    <!-- Top Navbar -->
+    <div class="top-navbar">
+      <i class="fas fa-bars" id="sidebar-toggle"></i>
+      <span>Student Dashboard</span>
+    </div>
+
+    <!-- Dashboard Sections -->
+    <div class="container mt-4">
+      <h2 class="mb-4" style="color: var(--primary-color); font-weight: 600; border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem;">
+        <i class="fas fa-tachometer-alt me-2"></i>Dashboard Overview
+      </h2>
+      
+      <div class="row">
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card p-4" id="personal-details">
+            <h3><i class="fas fa-user"></i> Personal Details</h3>
+            <p>View and update your personal information and contact details.</p>
+            <div class="d-flex align-items-center mb-3">
+              <span class="status-indicator status-complete"></span>
+              <small>Profile 80% complete</small>
+            </div>
+            <a href="form.html" class="btn">
+              Update <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card p-4" id="admission-process">
+            <h3><i class="fas fa-file-signature"></i> Admission</h3>
+            <p>Check your admission status and required documentation.</p>
+            <div class="d-flex align-items-center mb-3">
+              <span class="status-indicator status-pending"></span>
+              <small>2 steps pending</small>
+            </div>
+            <a href="form1.html" class="btn">
+              Continue <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card p-4" id="payment">
+            <h3><i class="fas fa-credit-card"></i> Payments</h3>
+            <p>Make payments and view your transaction history.</p>
+            <div class="d-flex align-items-center mb-3">
+              <span class="status-indicator status-incomplete"></span>
+              <small>Payment due</small>
+            </div>
+            <a href="payment.html" class="btn">
+              Pay Now <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card p-4" id="downloads">
+            <h3><i class="fas fa-download"></i> Downloads</h3>
+            <p>Access admission forms and payment receipts.</p>
+            <div class="d-flex align-items-center mb-3">
+              <span class="status-indicator status-complete"></span>
+              <small>3 documents available</small>
+            </div>
+            <a href="#downloads" class="btn">
+              View All <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent Activity Section -->
+      <div class="card mt-4 p-4">
+        <h3><i class="fas fa-history me-2"></i>Recent Activity</h3>
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1">Payment Received</h6>
+              <small>Today</small>
+            </div>
+            <p class="mb-1">Admission fee payment of ₹15,000 received</p>
+            <small class="text-success"><i class="fas fa-check-circle me-1"></i>Completed</small>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1">Document Uploaded</h6>
+              <small>2 days ago</small>
+            </div>
+            <p class="mb-1">You uploaded Aadhaar Card for verification</p>
+            <small class="text-warning"><i class="fas fa-clock me-1"></i>Pending approval</small>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1">Room Allocated</h6>
+              <small>1 week ago</small>
+            </div>
+            <p class="mb-1">Room B-204 has been allocated to you</p>
+            <small class="text-primary"><i class="fas fa-info-circle me-1"></i>View details</small>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Toggle Sidebar Collapse
+    document.getElementById("sidebar-toggle").addEventListener("click", function(e) {
+      e.preventDefault();
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("collapsed");
+      
+      const content = document.querySelector(".content");
+      if (sidebar.classList.contains("collapsed")) {
+        content.style.marginLeft = "80px";
+        content.style.width = "calc(100% - 80px)";
+      } else {
+        content.style.marginLeft = "250px";
+        content.style.width = "calc(100% - 250px)";
+      }
+    });
+
+    // Make cards clickable
+    document.querySelectorAll('.card').forEach(card => {
+      card.style.cursor = 'pointer';
+      const link = card.querySelector('a');
+      if (link) {
+        card.addEventListener('click', (e) => {
+          // Don't navigate if clicking on the button or its children
+          if (!e.target.closest('a')) {
+            window.location.href = link.href;
+          }
+        });
+      }
+    });
+
+    // Add animation to cards on hover
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-5px)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  </script>
+</body>
+</html>

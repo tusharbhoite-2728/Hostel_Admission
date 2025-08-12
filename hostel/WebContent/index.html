@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SES Boys Hostel - Comfortable and Secure Living for Students">
+    <meta name="keywords" content="SES Boys Hostel, Hostel, Student Accommodation">
+    <meta name="author" content="SES Boys Hostel Team">
+    <title>SES Boys Hostel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --accent-color: #28a745;
+            --light-bg: #f8f9fa;
+            --dark-text: #343a40;
+            --sidebar-bg: #003366;
+            --sidebar-hover: #004080;
+            --header-bg: #0056b3;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background: var(--header-bg);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            height: 50px;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 0.75rem;
+            font-size: 1.25rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            background: var(--sidebar-hover);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background: var(--sidebar-bg);
+            padding: 0.75rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        nav a i {
+            margin-right: 8px;
+        }
+
+        nav a:hover {
+            background: var(--sidebar-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--sidebar-hover);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: all 0.3s ease;
+            margin: 0;
+            border-radius: 0;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--header-bg);
+            transform: translateX(5px);
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: var(--sidebar-hover);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Enhanced Gallery Styles */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+        }
+
+        .gallery-slides {
+            display: flex;
+            transition: transform 0.6s ease-in-out;
+            height: 70vh;
+        }
+
+        .gallery-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .gallery-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-slide:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .gallery-caption h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .gallery-caption p {
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+            z-index: 10;
+        }
+
+        .gallery-btn {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-btn:hover {
+            background: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .gallery-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .gallery-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 3rem 1rem 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        .footer-section p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        /* Fixed Social Links Styles */
+        .social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .gallery-slides {
+                height: 60vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                z-index: 999;
+            }
+
+            nav a {
+                margin: 0.25rem 1rem;
+                padding: 1rem;
+            }
+
+            .dropdown-content {
+                position: static;
+                display: none;
+                width: 100%;
+                box-shadow: none;
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: none;
+            }
+
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+
+            .nav-active {
+                display: flex;
+            }
+
+            .gallery-slides {
+                height: 50vh;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            /* Center social links on mobile */
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feature-card {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="menu-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <img src="images/SES.png" alt="SES Logo" class="logo">
+        <h1>SES Boys Hostel</h1>
+    </header>
+    <nav id="nav-menu">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="registration.html"><i class="fas fa-user-plus"></i> Register</a>
+        <div class="dropdown">
+            <a href="#" class="dropbtn"><i class="fas fa-sign-in-alt"></i> Login <i class="fas fa-caret-down"></i></a>
+            <div class="dropdown-content">
+                <a href="login.html"><i class="fas fa-user-graduate"></i> Student Login</a>
+                <a href="admin.html"><i class="fas fa-user-shield"></i> Admin Login</a>
+            </div>
+        </div>
+        <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    </nav>
+
+    <div class="container">
+        <!-- Enhanced Gallery Section -->
+        <div class="gallery-container">
+            <div class="gallery-slides" id="gallerySlides">
+                <div class="gallery-slide">
+                    <img src="images/ses-boys-hostel-1.avif" alt="SES Hostel Building">
+                    <div class="gallery-caption">
+                        <h3>Our Hostel Building</h3>
+                        <p>Modern architecture with all necessary facilities</p>
+                    </div>
+                </div>
+                <div class="gallery-slide">
+                    <img src="images/ses2.jpeg" alt="Hostel Rooms">
+                    <div class="gallery-caption">
+                        <h3>Comfortable Rooms</h3>
+                        <p>Spacious and well-furnished living spaces</p>
+                    </div>
+                </div>
+                <div class="gallery-slide">
+                    <img src="images/ses3.webp" alt="Hostel Facilities">
+                    <div class="gallery-caption">
+                        <h3>Premium Facilities</h3>
+                        <p>High-quality amenities for our students</p>
+                    </div>
+                </div>
+                <div class="gallery-slide">
+                    <img src="images/ses4.webp" alt="Hostel Common Areas">
+                    <div class="gallery-caption">
+                        <h3>Common Areas</h3>
+                        <p>Spaces designed for relaxation and study</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gallery-nav">
+                <button class="gallery-btn" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="gallery-btn" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <div class="gallery-indicators" id="galleryIndicators"></div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3>Comfortable Living</h3>
+                <p>Our hostel provides spacious rooms with all necessary amenities to ensure a comfortable stay for our students. Each room is designed for optimal living conditions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>24/7 Security</h3>
+                <p>Round-the-clock security with CCTV surveillance and trained personnel to ensure the safety of all our residents. Your safety is our top priority.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <h3>High-Speed Internet</h3>
+                <p>Uninterrupted high-speed Wi-Fi connectivity throughout the hostel premises. Stay connected with your studies and loved ones.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Hostel Road, College Campus, Shirpur</p>
+                <p><i class="fas fa-phone"></i> +91 9876543210</p>
+                <p><i class="fas fa-envelope"></i> info@sesboyshostel.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="registration.html"><i class="fas fa-user-plus"></i> Registration</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 SES Boys Hostel. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Gallery Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll(".gallery-slide");
+        const indicatorsContainer = document.getElementById("galleryIndicators");
+        const slidesContainer = document.getElementById("gallerySlides");
+
+        // Create indicators
+        slides.forEach((slide, i) => {
+            const indicator = document.createElement("div");
+            indicator.classList.add("gallery-indicator");
+            if (i === 0) indicator.classList.add("active");
+            indicator.addEventListener("click", () => {
+                goToSlide(i);
+            });
+            indicatorsContainer.appendChild(indicator);
+        });
+
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateGallery();
+        }
+
+        function moveSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            updateGallery();
+        }
+
+        function updateGallery() {
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update indicators
+            document.querySelectorAll(".gallery-indicator").forEach((ind, i) => {
+                if (i === currentSlide) {
+                    ind.classList.add("active");
+                } else {
+                    ind.classList.remove("active");
+                }
+            });
+        }
+
+        // Auto slide change
+        let slideInterval = setInterval(() => {
+            moveSlide(1);
+        }, 5000);
+
+        // Pause on hover
+        const gallery = document.querySelector(".gallery-container");
+        gallery.addEventListener("mouseenter", () => {
+            clearInterval(slideInterval);
+        });
+        
+        gallery.addEventListener("mouseleave", () => {
+            slideInterval = setInterval(() => {
+                moveSlide(1);
+            }, 5000);
+        });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            var menu = document.getElementById("nav-menu");
+            menu.classList.toggle("nav-active");
+        }
+
+        // Mobile dropdown functionality
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+            dropdown.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    this.classList.toggle('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
